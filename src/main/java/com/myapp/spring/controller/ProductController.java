@@ -3,7 +3,9 @@ package com.myapp.spring.controller;
 import static org.springframework.http.ResponseEntity.ok;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -33,7 +35,12 @@ public class ProductController implements ProductApi{
 	
 	
 	public ResponseEntity<Product> getProduct( String id){
-		return productService.getProduct(id).map(assembler::toModel).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+		
+	
+		Product product= productService.getProduct(id).map(assembler::toModel).get();
+				return ResponseEntity.ok().cacheControl(CacheControl.maxAge(5,TimeUnit.DAYS))
+						.eTag(product.getId()).body(product);
+				
 	}
 	
 
