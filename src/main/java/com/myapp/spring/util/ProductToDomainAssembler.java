@@ -5,7 +5,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.hateoas.server.mvc.RepresentationModelAssemblerSupport;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import com.myapp.spring.api.model.Product;
@@ -23,7 +25,10 @@ public class ProductToDomainAssembler extends RepresentationModelAssemblerSuppor
 	public Product toModel(ProductDomain entity) {
 		
 		Product resource = createModelWithId(entity.getId(), entity);
+		BeanUtils.copyProperties(entity.getId(), resource);
 		resource.setId(entity.getId());
+		resource.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ProductController.class)
+				.getProduct(entity.getId())).withSelfRel());
 		
 		return resource;
 	}
