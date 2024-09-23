@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "carts")
-public class CartDocument {
+public class CartDomain {
 
   @Id
   private String id;
@@ -37,7 +37,7 @@ public String getId() {
     return id;
   }
 
-  public CartDocument setId(String id) {
+  public CartDomain setId(String id) {
     this.id = id;
     return this;
   }
@@ -48,7 +48,7 @@ public String getId() {
     return items;
   }
 
-  public CartDocument setItems(List<ItemDomain> items) {
+  public CartDomain setItems(List<ItemDomain> items) {
     this.items = items;
     return this;
   }
@@ -71,7 +71,7 @@ public void setCustomerId(String customerId) {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CartDocument that = (CartDocument) o;
+    CartDomain that = (CartDomain) o;
     return user.equals(that.user) && Objects.equals(items, that.items);
   }
 

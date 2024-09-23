@@ -5,10 +5,10 @@ import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.myapp.spring.domain.CartDocument;
+import com.myapp.spring.domain.CartDomain;
 
 
-public interface CartRepository extends CrudRepository<CartDocument, String> {
+public interface CartRepository extends CrudRepository<CartDomain, String> {
   
-  Optional<CartDocument> findByCustomerId(@Param("customerId") String customerId);
+  Optional<CartDomain> findByCustomerId(@Param("customerId") String customerId);
 }
