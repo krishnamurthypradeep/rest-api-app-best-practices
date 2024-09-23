@@ -19,6 +19,38 @@ import com.fasterxml.jackson.core.JsonParseException;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+// Browsing Through The Products
+// Add/Remove/Update the products in cart
+
+
+// Global Exception or Error handling
+
+
+// Divided The application into following subdomains
+
+// Users: Related To Users
+// Carts : Related To The Cart
+// Products : Related To The Product
+
+
+// Designing With OpenAPI Spec : API First Approach
+// Convert OAS into Spring Code
+// Domain Objects are Implemented
+// Repository Interfaces
+// Global Exception handlers
+// Service layer Is Implemented
+
+// Orders:
+// Payments:
+
+// HATEOAS
+// Enable Caching (IDempotence)
+// Security
+// Version
+
+// API Documentation
+// OPEN API Spec Approach
+
 
 @RestControllerAdvice
 public class RestApiErrorHandler {
