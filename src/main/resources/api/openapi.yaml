@@ -1,0 +1,434 @@
+openapi: 3.0.3
+info:
+  title: Sample Ecommerce App
+  description: >
+    'Ecomm App'
+  termsOfService: https://github.com/
+  contact:
+    email: support@pradeep.com
+  license:
+    name: MIT
+    url: https://github.com/
+  version: 1.0.0
+externalDocs:
+  description: Any document link you want to generate along with API.
+  url: http://swagger.io
+servers:
+  - url: https://ecommerce.swagger.io/v2
+tags:
+  - name: cart
+    description: Everything about cart
+    externalDocs:
+      description: Find out more (extra document link)
+      url: http://swagger.io
+  
+  - name: customer
+    description: Operations about user's persona customer
+  
+  - name: product
+    description: Operations about products
+
+
+paths:
+  /api/v1/carts/{customerId}:
+    get:
+      tags:
+        - cart
+      summary: Returns the shopping cart
+      description: Returns the shopping cart of given customer
+      operationId: getCartByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Cart'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - cart
+      summary: Delete the shopping cart
+      description: Deletes the shopping cart of given customer
+      operationId: deleteCart
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: successful operation
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+  /api/v1/carts/{customerId}/items:
+    get:
+      tags:
+        - cart
+      summary: Returns the list of products in user's shopping cart
+      description: Returns the items in shopping cart of given customer
+      operationId: getCartItemsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+    post:
+      tags:
+        - cart
+      summary: Adds an item in shopping cart
+      description: Adds an item to the shopping cart if it doesn't already exist, or increment quantity by the specified number of items if it does.
+      operationId: addCartItemsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Item object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        201:
+          description: Item added successfully
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+    put:
+      tags:
+        - cart
+      summary: Replace/add an item in shopping cart
+      description: Adds an item to the shopping cart if it doesn't already exist, or replace with given item if it does.
+      operationId: addOrReplaceItemsByCustomerId
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Item object
+        content:
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Item'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Item'
+      responses:
+        201:
+          description: Item added successfully
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Item'
+        404:
+          description: Given customer ID doesn't exist
+          content: {}
+  /api/v1/carts/{customerId}/items/{itemId}:
+    get:
+      tags:
+        - cart
+      summary: Returns given item from user's shopping cart
+      description: Returns given item from shopping cart of given customer
+      operationId: getCartItemsByItemId
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+        - name: itemId
+          in: path
+          description: Item (product) Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: If item exists in cart
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Item'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Item'
+        404:
+          description: Given item (product) ID doesn't exist
+          content: {}
+    delete:
+      tags:
+        - cart
+      summary: Delete the item from shopping cart
+      description: Deletes the item from shopping cart of given customer
+      operationId: deleteItemFromCart
+      parameters:
+        - name: customerId
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+        - name: itemId
+          in: path
+          description: Item (product) Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: Accepts the request, regardless of whether the specified item exists in the cart or not.
+  
+  /api/v1/customers:
+    get:
+      tags:
+        - customer
+      summary: Returns all customers
+      description: Returns all customers, or empty collection if no use found
+      operationId: getAllCustomers
+      responses:
+        200:
+          description: For successful fetch.
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /api/v1/customers/{id}:
+    get:
+      tags:
+        - customer
+      summary: Returns a customer
+      description: Returns a customers identifiable by given ID
+      operationId: getCustomerById
+      parameters:
+        - name: id
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: For successful fetch.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    delete:
+      tags:
+        - customer
+      summary: Deletes the customer
+      description: Deletes the customer identifiable by given ID
+      operationId: deleteCustomerById
+      parameters:
+        - name: id
+          in: path
+          description: Customer Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: Request accepted, returns this status even if user does not exist
+          content: {}
+  
+  /api/v1/products:
+    get:
+      tags:
+        - product
+      summary: Returns all the matched products
+      description: Returns the products that matches the given query criteria
+      operationId: queryProducts
+      
+      responses:
+        200:
+          description: For successful fetch.
+          content:
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /api/v1/products/{id}:
+    get:
+      tags:
+        - product
+      summary: Returns a product
+      description: Returns the product that matches the given product ID
+      operationId: getProduct
+      parameters:
+        - name: id
+          in: path
+          description: Product Identifier
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: For successful fetch.
+          content:
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Product'
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+components:
+  schemas:
+    Cart:
+      description: Shopping Cart of the user
+      type: object
+      properties:
+        id:
+          description: Cart Identifier
+          type: string
+        customerId:
+          description: Id of the customer who possesses the cart
+          type: string
+        items:
+          description: Collection of items in cart.
+          type: array
+          items:
+            $ref: '#/components/schemas/Item'
+    Item:
+      description: Items in shopping cart
+      type: object
+      properties:
+        id:
+          description: Item Identifier
+          type: string
+        quantity:
+          description: The item quantity
+          type: integer
+          format: int32
+        unitPrice:
+          description: The item's price per unit
+          type: number
+          format: double
+   
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        username:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+        phone:
+          type: string
+        userStatus:
+          type: string
+      xml:
+        name: User
+    
+    Product:
+      description: Product information
+      type: object
+      properties:
+        id:
+          description: Product identifier
+          type: string
+        name:
+          description: Product Name
+          type: string
+        description:
+          description: Prodcut's description
+          type: string
+        imageUrl:
+          description: Product image's URL
+          type: string
+        price:
+          description: Product price
+          type: number
+          format: double
+        count:
+          description: Product count
+          type: integer
+          format: int32
+        
+   
