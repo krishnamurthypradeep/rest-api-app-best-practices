@@ -1,0 +1,20 @@
+spring:
+  security:
+   
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: rest-api-openapi-demo
+            client-secret: product-keycloak-secret
+            client-name: Keycloak
+            provider: keycloak
+            scope: openid,profile,email
+            authorization-grant-type: authorization_code
+            redirect-uri: http://localhost:9000/login/oauth2/code/
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8180/realms/EcomApp
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8180/realms/EcomApp
